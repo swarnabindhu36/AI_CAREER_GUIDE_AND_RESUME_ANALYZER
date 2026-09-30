@@ -1,0 +1,6 @@
+{
+  "name": "ApexCareer AI - Career Intelligence & ATS Studio",
+  "description": "AI-powered career roadmap engine, ATS resume intelligence analyzer, skill-gap diagnostician, and personalized career strategist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Career Guide & Resume Analyzer</title>
+    <meta name="description" content="Personalized AI-powered preparation plans, resume intelligence, real learning resources, and interview preparation." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/variables.css" />
+  </head>
+  <body class="antialiased min-h-screen flex flex-col selection:bg-pink-500 selection:text-white">
+
+    <div id="toast-container"></div>
+
+    <!-- Mobile Header -->
+    <header class="md:hidden sticky top-0 z-40 bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 px-4 h-14 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <button onclick="toggleMobileSidebar()" class="p-1.5 rounded text-slate-600 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <span class="font-bold text-pink-600 flex items-center gap-1 text-sm">✦ CareerAI</span>
+      </div>
+      <button onclick="navigateTo('resume')" class="px-3 py-1 text-xs font-semibold bg-pink-600 text-white rounded">Analyze</button>
+    </header>
+
+    <!-- Mobile Drawer Overlay -->
+    <div id="drawer-overlay" onclick="closeMobileSidebar()" class="hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"></div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-zinc-900 border-r border-slate-200 dark:border-zinc-800 transform -translate-x-full transition-transform duration-200 ease-in-out md:hidden flex flex-col justify-between p-4">
+      <div class="space-y-6">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+          <span class="font-extrabold text-pink-600 flex items-center gap-1.5 text-base">✦ CareerAI</span>
+          <button onclick="closeMobileSidebar()" class="text-slate-400 hover:text-slate-600 text-lg">×</button>
+        </div>
+
+        <div class="space-y-4 text-xs">
+          <div>
+            <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1">MAIN</div>
+            <button onclick="navigateTo('home')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="home">
+              <span>✦</span><span>Home</span>
+            </button>
+            <button onclick="navigateTo('dashboard')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="dashboard">
+              <span>▣</span><span>Dashboard</span>
+            </button>
+            <button onclick="navigateTo('career')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="career">
+              <span>◎</span><span>Career Guide</span>
+            </button>
+            <button onclick="navigateTo('resume')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="resume">
+              <span>▤</span><span>Resume Analyzer</span>
+            </button>
+            <button onclick="navigateTo('resources')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="resources">
+              <span>◈</span><span>Resources</span>
+            </button>
+          </div>
+
+          <div>
+            <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1">PREPARE</div>
+            <button onclick="navigateTo('interview')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="interview">
+              <span>◇</span><span>Interview Prep</span>
+            </button>
+          </div>
+
+          <div>
+            <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1">TRACK</div>
+            <button onclick="navigateTo('progress')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="progress">
+              <span>◉</span><span>My Progress</span>
+            </button>
+          </div>
+
+          <div>
+            <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1">SYSTEM</div>
+            <button onclick="navigateTo('settings')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-colors flex items-center gap-2.5 font-medium" data-tab="settings">
+              <span>⚙</span><span>Settings</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="flex-1 flex max-w-[1500px] w-full mx-auto">
+      
+      <!-- FIXED DESKTOP SIDEBAR -->
+      <aside class="hidden md:flex flex-col justify-between w-60 shrink-0 border-r border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-5 sticky top-0 h-screen select-none">
+        <div class="space-y-6">
+          
+          <!-- Brand Wordmark -->
+          <button onclick="navigateTo('home')" class="flex items-center gap-2 text-left focus:outline-none">
+            <span class="text-pink-600 font-extrabold text-lg">✦</span>
+            <span class="font-extrabold text-slate-900 dark:text-white tracking-tight text-base">CareerAI</span>
+          </button>
+
+          <!-- Navigation Groups -->
+          <nav class="space-y-5 text-xs">
+            <div>
+              <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1.5 font-semibold">MAIN</div>
+              <div class="space-y-0.5">
+                <button onclick="navigateTo('home')" class="sidebar-link active w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="home">
+                  <span class="text-sm">✦</span><span class="font-medium">Home</span>
+                </button>
+                <button onclick="navigateTo('dashboard')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="dashboard">
+                  <span class="text-sm">▣</span><span class="font-medium">Dashboard</span>
+                </button>
+                <button onclick="navigateTo('career')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="career">
+                  <span class="text-sm">◎</span><span class="font-medium">Career Guide</span>
+                </button>
+                <button onclick="navigateTo('resume')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="resume">
+                  <span class="text-sm">▤</span><span class="font-medium">Resume Analyzer</span>
+                </button>
+                <button onclick="navigateTo('resources')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="resources">
+                  <span class="text-sm">◈</span><span class="font-medium">Resources</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1.5 font-semibold">PREPARE</div>
+              <div class="space-y-0.5">
+                <button onclick="navigateTo('interview')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="interview">
+                  <span class="text-sm">◇</span><span class="font-medium">Interview Prep</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1.5 font-semibold">TRACK</div>
+              <div class="space-y-0.5">
+                <button onclick="navigateTo('progress')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="progress">
+                  <span class="text-sm">◉</span><span class="font-medium">My Progress</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <div class="font-mono text-slate-400 uppercase tracking-wider text-[10px] px-3 mb-1.5 font-semibold">SYSTEM</div>
+              <div class="space-y-0.5">
+                <button onclick="navigateTo('settings')" class="sidebar-link w-full text-left px-3 py-2 rounded-md transition-all flex items-center gap-2.5 text-slate-600 dark:text-zinc-400 hover:text-pink-600" data-tab="settings">
+                  <span class="text-sm">⚙</span><span class="font-medium">Settings</span>
+                </button>
+              </div>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Sidebar Footer Action -->
+        <div class="pt-4 border-t border-slate-100 dark:border-zinc-800">
+          <button onclick="navigateTo('career')" class="w-full py-2 px-3 text-xs font-semibold btn-primary rounded-lg flex items-center justify-center gap-1.5 shadow-sm">
+            <span>+ New Plan</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN PAGE CONTENT VIEWPORT -->
+      <main class="flex-1 p-6 sm:p-8 lg:p-10 max-w-5xl overflow-y-auto">
+        
+        <!-- 1. HOME VIEW -->
+        <section id="view-home" class="app-page-view space-y-12">
+          
+          <!-- Hero Section -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center pt-2">
+            <div class="lg:col-span-7 space-y-5">
+              <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-pink-100 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300 border border-pink-200 dark:border-pink-900">
+                <span>✦</span><span>AI CAREER GUIDE & RESUME INTELLIGENCE</span>
+              </div>
+              <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+                Build your career.<br/><span class="text-pink-600">Prepare with purpose.</span>
+              </h1>
+              <p class="text-base text-slate-600 dark:text-zinc-300 leading-relaxed max-w-xl">
+                Personalized AI-powered preparation plans, resume intelligence, real learning resources, and interview preparation.
+              </p>
+              <div class="flex flex-wrap items-center gap-3 pt-2">
+                <button onclick="navigateTo('career')" class="px-5 py-2.5 text-sm font-semibold text-white bg-pink-600 hover:bg-pink-700 rounded-lg shadow-sm transition-colors">
+                  Create Career Plan
+                </button>
+                <button onclick="navigateTo('resume')" class="px-5 py-2.5 text-sm font-semibold text-slate-800 dark:text-zinc-200 bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-lg hover:border-pink-500 transition-colors">
+                  Analyze Resume
+                </button>
+              </div>
+            </div>
+
+            <!-- Illustration Card -->
+            <div class="lg:col-span-5">
+              <div class="premium-card p-6 bg-gradient-to-br from-pink-50/40 via-white to-pink-50/20 dark:from-zinc-900 dark:to-zinc-950 border border-pink-200/60 dark:border-zinc-800 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800 pb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-pink-600"></span>
+                    <span class="text-xs font-bold text-slate-800 dark:text-zinc-200">Python Developer Plan</span>
+                  </div>
+                  <span class="text-[11px] font-mono text-pink-600 font-semibold">Day 12 of 30</span>
+                </div>
+                <div class="space-y-1.5">
+                  <div class="flex justify-between text-xs text-slate-600 dark:text-zinc-400">
+                    <span>Preparation Progress</span>
+                    <span class="font-mono font-bold text-slate-900 dark:text-white">68%</span>
+                  </div>
+                  <div class="w-full bg-slate-100 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
+                    <div class="bg-pink-600 h-full rounded-full" style="width: 68%"></div>
+                  </div>
+                </div>
+                <div class="p-3 bg-white dark:bg-zinc-900 rounded-lg border border-slate-100 dark:border-zinc-800 text-xs flex justify-between items-center">
+                  <span class="text-slate-500">Estimated ATS Readiness</span>
+                  <span class="font-mono font-bold text-emerald-600">76 / 100</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Key Features (4 Compact Cards) -->
+          <div class="space-y-4">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">Core Capabilities</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div onclick="navigateTo('career')" class="premium-card p-5 cursor-pointer hover:border-pink-500 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-950/40 text-pink-600 flex items-center justify-center font-bold mb-3">◎</div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Career Guide</h3>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Personalized preparation plans.</p>
+              </div>
+
+              <div onclick="navigateTo('resume')" class="premium-card p-5 cursor-pointer hover:border-pink-500 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-950/40 text-pink-600 flex items-center justify-center font-bold mb-3">▤</div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Resume Analyzer</h3>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Understand your resume and ATS readiness.</p>
+              </div>
+
+              <div onclick="navigateTo('resources')" class="premium-card p-5 cursor-pointer hover:border-pink-500 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-950/40 text-pink-600 flex items-center justify-center font-bold mb-3">◈</div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Real Resources</h3>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Find relevant courses and videos.</p>
+              </div>
+
+              <div onclick="navigateTo('interview')" class="premium-card p-5 cursor-pointer hover:border-pink-500 transition-colors">
+                <div class="w-8 h-8 rounded-lg bg-pink-100 dark:bg-pink-950/40 text-pink-600 flex items-center justify-center font-bold mb-3">◇</div>
+                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Interview Prep</h3>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Practice role-specific questions.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- How It Works (01, 02, 03) -->
+          <div class="space-y-4 pt-4 border-t border-slate-200 dark:border-zinc-800">
+            <h2 class="text-sm font-bold uppercase tracking-wider text-slate-400 font-mono">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div class="space-y-2">
+                <div class="font-mono text-2xl font-extrabold text-pink-600">01</div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Choose your target role</h4>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">Select from verified software engineering, data, cloud, and security paths.</p>
+              </div>
+              <div class="space-y-2">
+                <div class="font-mono text-2xl font-extrabold text-pink-600">02</div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Tell us your skills and available time</h4>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">Set your preparation duration and daily commitment down to the hour.</p>
+              </div>
+              <div class="space-y-2">
+                <div class="font-mono text-2xl font-extrabold text-pink-600">03</div>
+                <h4 class="text-sm font-bold text-slate-900 dark:text-white">Follow your personalized preparation plan</h4>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed">Execute milestone objectives, verify resume readiness, and practice interview questions.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Final CTA -->
+          <div class="p-8 rounded-xl bg-gradient-to-r from-pink-500 to-pink-600 text-white flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h3 class="text-xl font-bold">Ready to prepare for your next opportunity?</h3>
+              <p class="text-xs text-pink-100 mt-1">Start your structured career roadmap today.</p>
+            </div>
+            <button onclick="navigateTo('career')" class="px-6 py-2.5 bg-white text-pink-600 font-bold text-xs rounded-lg shadow-md hover:bg-pink-50 transition-colors whitespace-nowrap">
+              Get Started
+            </button>
+          </div>
+        </section>
+
+        <!-- 2. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="app-page-view hidden space-y-8">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Good morning, <span id="dash-user-greeting">Alex</span> 👋</h1>
+            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Let's continue your career preparation.</p>
+          </div>
+
+          <!-- 4 Important Cards -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="premium-card p-4">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">Target Role</span>
+              <div id="dash-target-role" class="text-lg font-bold text-slate-900 dark:text-white mt-1">Python Developer</div>
+            </div>
+            <div class="premium-card p-4">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">Preparation</span>
+              <div id="dash-prep-pct" class="text-lg font-bold text-pink-600 font-mono mt-1">68%</div>
+            </div>
+            <div class="premium-card p-4">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">ATS Readiness</span>
+              <div id="dash-ats-score" class="text-lg font-bold text-emerald-600 font-mono mt-1">76 / 100</div>
+            </div>
+            <div class="premium-card p-4">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">Skills Progress</span>
+              <div id="dash-skills-count" class="text-lg font-bold text-slate-900 dark:text-white font-mono mt-1">12 / 18</div>
+            </div>
+          </div>
+
+          <!-- Roadmap Progress Card -->
+          <div class="premium-card p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 id="dash-roadmap-role" class="text-base font-bold text-slate-900 dark:text-white">Python Developer Roadmap</h3>
+                <div id="dash-current-day" class="text-xs text-pink-600 font-mono font-semibold mt-0.5">Day 0 of 30</div>
+              </div>
+              <button onclick="navigateTo('roadmap')" class="px-4 py-1.5 text-xs font-semibold btn-primary rounded-md">
+                Continue Preparation
+              </button>
+            </div>
+
+            <div class="space-y-1.5">
+              <div class="w-full bg-slate-100 dark:bg-zinc-800 h-2.5 rounded-full overflow-hidden">
+                <div id="dash-progress-fill" class="bg-pink-600 h-full rounded-full transition-all duration-300" style="width: 40%"></div>
+              </div>
+              <div id="dash-progress-text" class="text-[11px] text-slate-500 text-right">0% complete</div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="space-y-3">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Quick Actions</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <button onclick="navigateTo('career')" class="p-3 text-left rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-pink-500 transition-colors bg-white dark:bg-zinc-900">
+                <span class="text-pink-600 font-bold block mb-1">◎</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-zinc-200">Career Guide</span>
+              </button>
+              <button onclick="navigateTo('resume')" class="p-3 text-left rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-pink-500 transition-colors bg-white dark:bg-zinc-900">
+                <span class="text-pink-600 font-bold block mb-1">▤</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-zinc-200">Resume Analyzer</span>
+              </button>
+              <button onclick="navigateTo('resources')" class="p-3 text-left rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-pink-500 transition-colors bg-white dark:bg-zinc-900">
+                <span class="text-pink-600 font-bold block mb-1">◈</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-zinc-200">Resources</span>
+              </button>
+              <button onclick="navigateTo('interview')" class="p-3 text-left rounded-lg border border-slate-200 dark:border-zinc-800 hover:border-pink-500 transition-colors bg-white dark:bg-zinc-900">
+                <span class="text-pink-600 font-bold block mb-1">◇</span>
+                <span class="text-xs font-semibold text-slate-800 dark:text-zinc-200">Interview Prep</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. CAREER GUIDE VIEW -->
+        <section id="view-career" class="app-page-view hidden space-y-8">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Build Your Career Roadmap</h1>
+            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Configure your timeline and daily availability to generate an adaptive preparation plan.</p>
+          </div>
+
+          <div class="premium-card p-6 space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Target Role</label>
+                <select id="career-target-role" class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500"></select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Preparation Period</label>
+                <select id="career-prep-days" class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500">
+                  <option value="7">7 days</option>
+                  <option value="10">10 days</option>
+                  <option value="15">15 days</option>
+                  <option value="20">20 days</option>
+                  <option value="30" selected>30 days</option>
+                  <option value="45">45 days</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Daily Available Time</label>
+              <select id="career-daily-hours" class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500">
+                <option value="0.5">30 minutes</option>
+                <option value="1">1 hour</option>
+                <option value="2" selected>2 hours</option>
+                <option value="3">3 hours</option>
+                <option value="4">4+ hours</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Current Skills (Type skill and press Enter)</label>
+              <input id="input-skill-chip" type="text" placeholder="e.g. Python, SQL, Git..." class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500 mb-2" />
+              <div id="career-skills-chips" class="flex flex-wrap gap-1.5"></div>
+            </div>
+
+            <button id="btn-generate-roadmap" onclick="generateRoadmapPlan(true)" class="w-full py-3 px-4 text-sm font-semibold btn-primary rounded-lg flex items-center justify-center gap-2 shadow-sm">
+              <span>✨ Generate My Roadmap</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- 4. ROADMAP VIEW -->
+        <section id="view-roadmap" class="app-page-view hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h1 id="roadmap-title" class="text-2xl font-bold text-slate-900 dark:text-white">Preparation Roadmap</h1>
+              <p id="roadmap-summary" class="text-xs text-slate-500 dark:text-zinc-400 mt-1 max-w-xl"></p>
+            </div>
+            <button onclick="navigateTo('career')" class="px-3.5 py-1.5 text-xs font-semibold border border-slate-200 dark:border-zinc-800 rounded-md hover:border-pink-500">
+              Change Timeline
+            </button>
+          </div>
+
+          <!-- Progress Header Bar -->
+          <div class="p-4 rounded-xl bg-pink-50/50 dark:bg-zinc-900 border border-pink-200 dark:border-zinc-800 space-y-2">
+            <div class="flex justify-between text-xs font-semibold">
+              <span id="roadmap-total-hours" class="text-pink-600 font-mono">30 Days · 2 hrs/day (60 Total Hours)</span>
+              <span id="roadmap-progress-text" class="text-slate-600 dark:text-zinc-400 font-mono">0 of 30 days completed (0%)</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-zinc-800 h-2 rounded-full overflow-hidden">
+              <div id="roadmap-progress-bar" class="bg-pink-600 h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Timeline Days -->
+          <div id="roadmap-timeline" class="space-y-4"></div>
+        </section>
+
+        <!-- 5. RESUME ANALYZER VIEW -->
+        <section id="view-resume" class="app-page-view hidden space-y-8">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Resume Intelligence</h1>
+            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Understand how well your resume matches your target role and discover what you can improve.</p>
+          </div>
+
+          <!-- Upload Drop Zone -->
+          <div id="resume-drop-zone" class="border-2 border-dashed border-slate-300 dark:border-zinc-800 rounded-xl p-8 text-center bg-slate-50/50 dark:bg-zinc-950/40 relative cursor-pointer hover:border-pink-500 transition-colors">
+            <input id="resume-file-input" type="file" accept=".pdf,.docx,.txt" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+            <div class="text-pink-600 text-2xl font-bold mb-1">▤</div>
+            <div class="text-sm font-semibold text-slate-800 dark:text-zinc-200">Drag & drop your resume file or browse</div>
+            <div class="text-[11px] text-slate-500 mt-0.5">Supports PDF, DOCX, and TXT (Max 5 MB)</div>
+            <div id="resume-file-status" class="hidden mt-3 text-xs font-semibold text-pink-600 bg-pink-100 dark:bg-pink-950/60 inline-block px-3 py-1 rounded-full">
+              ✓ <span id="resume-file-name">file.pdf</span>
+            </div>
+          </div>
+
+          <!-- Form Parameters -->
+          <div class="premium-card p-6 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Target Role</label>
+                <select id="resume-target-role" class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500"></select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Job Description (Optional)</label>
+                <input id="resume-jd-input" type="text" placeholder="Paste key job description requirements..." class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Resume Text Content (Auto-filled on upload or paste)</label>
+              <textarea id="resume-text-input" rows="8" placeholder="Resume text will appear here automatically when uploaded..." class="w-full p-3 text-xs font-mono bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500"></textarea>
+            </div>
+
+            <button id="btn-analyze-resume" onclick="analyzeResumeContent()" class="w-full py-3 px-4 text-sm font-semibold btn-primary rounded-lg flex items-center justify-center gap-2 shadow-sm">
+              <span>Analyze Resume</span>
+            </button>
+          </div>
+
+          <!-- ATS Results (Hidden until run) -->
+          <div id="ats-results-container" class="hidden space-y-6 pt-4">
+            
+            <!-- Score & Notice -->
+            <div class="premium-card p-6 space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 dark:border-zinc-800 pb-4">
+                <div>
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-400 font-mono">Estimated ATS Readiness</span>
+                  <div class="flex items-baseline gap-2 mt-1">
+                    <span id="ats-score-display" class="text-4xl font-extrabold text-pink-600 font-mono">76</span>
+                    <span class="text-sm font-mono text-slate-400">/ 100</span>
+                  </div>
+                </div>
+                <div class="max-w-md text-right sm:text-right">
+                  <p class="text-[11px] text-slate-500 leading-relaxed italic">
+                    This is an estimated resume-readiness score based on measurable factors. Actual employer ATS systems may use different algorithms.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Score Breakdown -->
+              <div>
+                <h4 class="text-xs font-semibold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-3">Score Factors Breakdown</h4>
+                <div id="ats-breakdown-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+              </div>
+            </div>
+
+            <!-- Matched vs Missing Skills Evidence -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="premium-card p-5 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-600 font-mono">Matched Skills (With Evidence)</h4>
+                <div id="ats-matched-skills" class="space-y-2"></div>
+              </div>
+
+              <div class="premium-card p-5 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-rose-500 font-mono">Missing / Not Detected</h4>
+                <div id="ats-missing-skills" class="space-y-2"></div>
+              </div>
+            </div>
+
+            <!-- Strengths & Actionable Improvements -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div class="premium-card p-5 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-zinc-200 font-mono">Verified Strengths</h4>
+                <ul id="ats-strengths-list" class="space-y-2"></ul>
+              </div>
+
+              <div class="premium-card p-5 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-pink-600 font-mono">Actionable Improvements</h4>
+                <ul id="ats-improvements-list" class="space-y-2"></ul>
+              </div>
+            </div>
+
+            <!-- JD Analysis (Optional) -->
+            <div id="ats-jd-analysis" class="hidden premium-card p-5 space-y-3">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-zinc-200 font-mono">Job Description Comparison</h4>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div>
+                  <span class="text-slate-500 block mb-1">Matching Terms in Resume:</span>
+                  <div id="jd-matched-terms" class="flex flex-wrap gap-1"></div>
+                </div>
+                <div>
+                  <span class="text-slate-500 block mb-1">Important JD Terms Not Found:</span>
+                  <div id="jd-missing-terms" class="flex flex-wrap gap-1"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- 6. RESOURCES VIEW -->
+        <section id="view-resources" class="app-page-view hidden space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Real Learning Resources</h1>
+              <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Verified official courses, documentation, and videos tailored to your role.</p>
+            </div>
+            <input id="resource-search-input" oninput="loadResources()" type="text" placeholder="Search courses, YouTube..." class="p-2 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500 w-full sm:w-64" />
+          </div>
+
+          <!-- Type Filters -->
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <button onclick="filterResourcesByType('All', this)" class="resource-type-filter active px-3 py-1.5 rounded-md font-semibold bg-pink-600 text-white transition-colors" data-type="All">All</button>
+            <button onclick="filterResourcesByType('Documentation', this)" class="resource-type-filter px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" data-type="Documentation">Documentation</button>
+            <button onclick="filterResourcesByType('YouTube', this)" class="resource-type-filter px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" data-type="YouTube">YouTube</button>
+            <button onclick="filterResourcesByType('Practice', this)" class="resource-type-filter px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" data-type="Practice">Practice</button>
+            <button onclick="filterResourcesByType('Course', this)" class="resource-type-filter px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" data-type="Course">Courses</button>
+            <button onclick="filterResourcesByType('Certification', this)" class="resource-type-filter px-3 py-1.5 rounded-md font-medium text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors" data-type="Certification">Certification</button>
+          </div>
+
+          <!-- Resources Grid -->
+          <div id="resources-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </section>
+
+        <!-- 7. INTERVIEW PREPARATION VIEW -->
+        <section id="view-interview" class="app-page-view hidden space-y-6">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Interview Preparation</h1>
+            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Practice role-specific technical and behavioral questions with explanations.</p>
+          </div>
+
+          <!-- Filter Toolbar -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 p-4 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
+            <div>
+              <label class="block text-[11px] text-slate-500 mb-1">Target Role</label>
+              <select id="interview-target-role" onchange="loadInterviewQuestions()" class="w-full p-2 text-xs bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded text-slate-900 dark:text-white"></select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-500 mb-1">Question Category</label>
+              <select id="interview-category-select" onchange="loadInterviewQuestions()" class="w-full p-2 text-xs bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded text-slate-900 dark:text-white">
+                <option value="All">All Categories</option>
+                <option value="Technical">Technical</option>
+                <option value="HR">HR</option>
+                <option value="Behavioral">Behavioral</option>
+                <option value="Role Specific">Role Specific</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-[11px] text-slate-500 mb-1">Difficulty</label>
+              <select id="interview-difficulty-select" onchange="loadInterviewQuestions()" class="w-full p-2 text-xs bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded text-slate-900 dark:text-white">
+                <option value="All">All Difficulties</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Questions Expandable Cards -->
+          <div id="interview-questions-list" class="space-y-4"></div>
+        </section>
+
+        <!-- 8. MY PROGRESS VIEW -->
+        <section id="view-progress" class="app-page-view hidden space-y-6">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">My Progress</h1>
+            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Track your roadmap milestone achievements and overall readiness.</p>
+            <p class="text-xs text-pink-600 font-semibold mt-2">Target role: <span id="prog-target-role">Python Developer</span></p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div class="premium-card p-5">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">Overall Preparation</span>
+              <div id="prog-overall-pct" class="text-3xl font-extrabold text-pink-600 font-mono mt-1">40%</div>
+            </div>
+            <div class="premium-card p-5">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">Completed Days</span>
+              <div id="prog-completed-days" class="text-3xl font-extrabold text-slate-900 dark:text-white font-mono mt-1">12 / 30 Days</div>
+            </div>
+            <div class="premium-card p-5">
+              <span class="text-xs text-slate-500 dark:text-zinc-400">Estimated ATS Readiness</span>
+              <div class="text-3xl font-extrabold text-emerald-600 font-mono mt-1">76 / 100</div>
+            </div>
+          </div>
+
+          <div class="premium-card p-6 space-y-3">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white">Milestone Completion</h3>
+            <div class="w-full bg-slate-100 dark:bg-zinc-800 h-3 rounded-full overflow-hidden">
+              <div id="prog-bar" class="bg-pink-600 h-full rounded-full transition-all duration-300" style="width: 40%"></div>
+            </div>
+            <div class="text-xs text-slate-500">Every completed day saves locally and syncs across your preparation sessions.</div>
+          </div>
+        </section>
+
+        <!-- 9. SETTINGS VIEW -->
+        <section id="view-settings" class="app-page-view hidden space-y-6">
+          <div>
+            <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Website Settings</h1>
+            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1">Manage appearance, theme, and user preferences.</p>
+          </div>
+
+          <div class="premium-card p-6 space-y-6 max-w-xl">
+            <div class="space-y-4">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-zinc-800 pb-2">Appearance</h3>
+              
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Theme Selection</label>
+                <select id="settings-theme-select" onchange="applyTheme(this.value)" class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500">
+                  <option value="system">System Default</option>
+                  <option value="light">Light Theme (Pink + White)</option>
+                  <option value="dark">Dark Theme (Pink + Dark)</option>
+                </select>
+                <p class="text-[11px] text-slate-500 mt-1">Theme preference persists across page refreshes and browser sessions.</p>
+              </div>
+            </div>
+
+            <div class="space-y-4 pt-4 border-t border-slate-100 dark:border-zinc-800">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-zinc-800 pb-2">Profile Information</h3>
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 dark:text-zinc-300 mb-1.5">Your Name</label>
+                <input id="settings-user-name" type="text" value="Alex" class="w-full p-2.5 text-xs bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-md text-slate-900 dark:text-white focus:outline-none focus:border-pink-500" />
+              </div>
+            </div>
+
+            <button onclick="saveSettings()" class="py-2.5 px-5 text-xs font-semibold btn-primary rounded-lg shadow-sm">
+              Save Settings
+            </button>
+          </div>
+        </section>
+
+      </main>
+
+    </div>
+
+    <script src="/static/js/app.js"></script>
+  </body>
+</html>

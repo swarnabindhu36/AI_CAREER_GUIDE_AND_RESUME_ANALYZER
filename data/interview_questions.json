@@ -1,0 +1,82 @@
+[
+  {
+    "id": "q-tech-01",
+    "role": "Python Developer",
+    "category": "Technical",
+    "difficulty": "Intermediate",
+    "question": "Explain how Python memory management and garbage collection work, and how the Global Interpreter Lock (GIL) impacts multi-threaded CPU-bound programs.",
+    "simple_explanation": "Python primarily uses reference counting for memory management alongside a cyclic garbage collector to detect and collect circular reference loops. The GIL is a mutex that protects access to Python objects, preventing multiple native threads from executing Python bytecodes simultaneously in CPython.",
+    "example": "In CPU-bound tasks (like heavy numeric calculations), multiple threads in Python will contend for the GIL and won't achieve true parallel speedup. Instead, developers use the 'multiprocessing' module or offload to C-extensions/NumPy to bypass the GIL.",
+    "interview_tip": "Demonstrate that you know when to use 'threading' (great for I/O bound operations like network calls) versus 'multiprocessing' or 'asyncio'."
+  },
+  {
+    "id": "q-tech-02",
+    "role": "Python Developer",
+    "category": "Technical",
+    "difficulty": "Intermediate",
+    "question": "What is the difference between generators and regular iterables in Python, and when would you use yield?",
+    "simple_explanation": "A regular iterable stores all its items in memory at once (like a list). A generator generates items lazily on demand one by one using the 'yield' keyword, maintaining its execution state between calls without allocating memory for the entire dataset.",
+    "example": "Processing a 10GB server log file: with open('huge.log') as f: for line in (l for l in f if 'ERROR' in l): process(line) uses constant minimal RAM instead of crashing the server.",
+    "interview_tip": "Highlight memory efficiency and explain the iterator protocol (__iter__ and __next__)."
+  },
+  {
+    "id": "q-tech-03",
+    "role": "Frontend Developer",
+    "category": "Technical",
+    "difficulty": "Intermediate",
+    "question": "What is event bubbling, event capturing, and how does event delegation work in the browser DOM?",
+    "simple_explanation": "When an event occurs on an element, it first travels down from window to the target element (capturing phase), then triggers on target, and finally bubbles back up the DOM hierarchy (bubbling phase). Event delegation leverages bubbling by attaching a single event listener to a parent element to manage events for multiple child elements.",
+    "example": "Instead of adding click listeners to 1,000 table rows, you attach one click listener to the parent <table> or <tbody> and inspect 'event.target.closest('tr')'.",
+    "interview_tip": "Mention performance gains and dynamic element handling without needing to re-bind listeners when rows are inserted or removed."
+  },
+  {
+    "id": "q-tech-04",
+    "role": "Backend Developer",
+    "category": "Technical",
+    "difficulty": "Advanced",
+    "question": "How do database indexes work under the hood, and what happens when you create a composite index on (user_id, created_at)?",
+    "simple_explanation": "Relational databases predominantly use balanced search trees (B-Trees). An index on (user_id, created_at) sorts entries first by user_id, and then by created_at. Queries filtering on user_id alone or (user_id AND created_at) will perform fast index lookups (O(log N)), but queries filtering only by created_at cannot leverage the leading edge of this index.",
+    "example": "SELECT * FROM orders WHERE user_id = 42 ORDER BY created_at DESC LIMIT 10 can be satisfied entirely from the index without an in-memory sort.",
+    "interview_tip": "Always mention the Leftmost Prefix Rule and explain that indexes speed up reads at the cost of slower INSERT/UPDATE writes."
+  },
+  {
+    "id": "q-role-01",
+    "role": "Python Developer",
+    "category": "Role Specific",
+    "difficulty": "Intermediate",
+    "question": "How do you design and structure a scalable RESTful API in Flask or FastAPI with clean database separation?",
+    "simple_explanation": "A robust backend architecture separates concerns into discrete layers: routing/controllers (handling HTTP requests and validation), service layer (business logic), and data access/repository layer (interacting with ORM or database queries).",
+    "example": "In Flask, organize code using Blueprints for domain endpoints, Pydantic or Marshmallow for schema validation, and SQLAlchemy scoped sessions for database transaction safety.",
+    "interview_tip": "Emphasize centralized error handling (returning consistent JSON error envelopes) and environment variable management for production database credentials."
+  },
+  {
+    "id": "q-hr-01",
+    "role": "All Roles",
+    "category": "HR",
+    "difficulty": "Beginner",
+    "question": "Tell me about yourself and why you are interested in transitioning or growing into this target role.",
+    "simple_explanation": "Structure your response into: Present (what you are currently doing and your strongest technical capabilities), Past (how your prior experience or education led you here), and Future (why this specific company and role aligns with where you are driving your engineering career).",
+    "example": "'Over the last 2 years, I've built backend APIs and optimized database schemas. Working on high-volume pipelines sparked my passion for distributed architecture, which is why this role at your company is the ideal next milestone.'",
+    "interview_tip": "Keep it under 90 seconds. Focus on business value and engineering impact rather than a chronological life history."
+  },
+  {
+    "id": "q-beh-01",
+    "role": "All Roles",
+    "category": "Behavioral",
+    "difficulty": "Intermediate",
+    "question": "Describe a time when you discovered a critical bug or production incident under tight deadline pressure. How did you resolve it?",
+    "simple_explanation": "Use the STAR methodology: Situation (context and challenge), Task (what was required of you), Action (technical diagnosis, containment, and communication), and Result (measurable outcome and post-mortem prevention).",
+    "example": "'Two days before release, our load testing revealed memory exhaustion on customer checkout. I profiled the application heap, isolated an unclosed database cursor, deployed a hotfix, and introduced automated load regression tests in our CI/CD pipeline.'",
+    "interview_tip": "Hiring managers look for composure, ownership ('I did' instead of passive 'we'), and what preventive steps you instituted to ensure the bug never recurs."
+  },
+  {
+    "id": "q-beh-02",
+    "role": "All Roles",
+    "category": "Behavioral",
+    "difficulty": "Intermediate",
+    "question": "Tell me about a disagreement you had with a team member or technical lead over an architectural decision. How did you handle it?",
+    "simple_explanation": "Focus on data-driven decision making, active listening, respectful technical debate, and commitment to the final consensus.",
+    "example": "'We disagreed on whether to introduce Redis caching or optimize existing SQL queries. I created a benchmark branch measuring both approaches with k6 load tests. The data proved query indexing solved 80% of our latency issues without introducing new operational complexity.'",
+    "interview_tip": "Demonstrate that you separate technical disagreements from personal conflict and prioritize the simplest reliable solution for the team."
+  }
+]

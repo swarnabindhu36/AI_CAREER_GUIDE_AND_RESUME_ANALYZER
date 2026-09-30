@@ -1,0 +1,192 @@
+[
+  {
+    "role": "Python Developer",
+    "category": "Backend Engineering",
+    "description": "Designs and builds server-side applications, robust REST APIs, background task systems, and data pipelines using modern Python.",
+    "core_skills": ["Python", "Flask", "Django", "FastAPI", "SQL", "PostgreSQL", "REST APIs", "Unit Testing"],
+    "secondary_skills": ["Docker", "Redis", "Celery", "Git", "CI/CD", "Linux", "Pytest", "AsyncIO"],
+    "tools": ["Git", "Docker", "Postman", "VS Code", "GitHub Actions", "Virtualenv"],
+    "projects": [
+      "RESTful API service with JWT authentication and PostgreSQL database",
+      "Asynchronous background worker queue using Redis & Celery",
+      "Automated web scraper and notification pipeline with Pytest test suite"
+    ],
+    "interview_topics": [
+      "Python data model, generators, and decorators",
+      "Database schema indexing and N+1 query resolution",
+      "RESTful API design and status code contracts",
+      "Asynchronous I/O with asyncio and concurrency models"
+    ]
+  },
+  {
+    "role": "Frontend Developer",
+    "category": "Web Development",
+    "description": "Creates responsive, accessible, high-performance web applications using modern JavaScript/TypeScript, React, and CSS architecture.",
+    "core_skills": ["JavaScript", "TypeScript", "React", "HTML5", "CSS3", "Tailwind CSS", "REST APIs"],
+    "secondary_skills": ["Next.js", "Redux Toolkit", "Vitest", "Jest", "Webpack/Vite", "Web Accessibility (a11y)"],
+    "tools": ["Git", "Figma", "Chrome DevTools", "npm/pnpm", "Vite"],
+    "projects": [
+      "Responsive analytics dashboard with dynamic charting and dark mode",
+      "Accessible e-commerce catalog with client-side filtering and cart persistence",
+      "Interactive kanban board with drag-and-drop state management"
+    ],
+    "interview_topics": [
+      "DOM event delegation and lifecycle rendering",
+      "React state management, hooks lifecycle, and memoization",
+      "CSS Grid/Flexbox layouts and responsive typography",
+      "Web Core Vitals and performance optimization techniques"
+    ]
+  },
+  {
+    "role": "Full Stack Developer",
+    "category": "Engineering",
+    "description": "Bridges frontend user interfaces and backend architectures with end-to-end delivery from database to cloud deployment.",
+    "core_skills": ["JavaScript", "TypeScript", "React", "Node.js", "Python", "SQL", "PostgreSQL", "REST APIs"],
+    "secondary_skills": ["Docker", "Redis", "GraphQL", "Tailwind CSS", "Microservices", "Git", "CI/CD"],
+    "tools": ["Git", "Docker", "VS Code", "Postman", "GitHub Actions"],
+    "projects": [
+      "Full-stack SaaS application with authentication, Stripe billing, and dashboard",
+      "Real-time team collaboration app with WebSockets and relational database",
+      "Containerized microservices API with centralized logging and Redis caching"
+    ],
+    "interview_topics": [
+      "Client-server architecture and API contract design",
+      "State synchronization and optimistic UI updates",
+      "Database transactions, ACID properties, and indexing",
+      "Application security (CORS, CSRF, JWT, OWASP top 10)"
+    ]
+  },
+  {
+    "role": "Java Developer",
+    "category": "Enterprise Software",
+    "description": "Constructs high-throughput, enterprise-grade distributed systems and microservices leveraging the Spring Boot ecosystem.",
+    "core_skills": ["Java", "Spring Boot", "Hibernate / JPA", "SQL", "PostgreSQL / MySQL", "REST APIs", "Maven / Gradle"],
+    "secondary_skills": ["Kafka", "Docker", "Microservices", "JUnit", "Redis", "Spring Security"],
+    "tools": ["IntelliJ IDEA", "Git", "Postman", "Docker", "Jenkins"],
+    "projects": [
+      "Spring Boot microservice system with Spring Security JWT and PostgreSQL",
+      "Event-driven order processing pipeline utilizing Apache Kafka",
+      "High-concurrency banking ledger service with transactional integrity"
+    ],
+    "interview_topics": [
+      "JVM memory management, Garbage Collection, and multithreading",
+      "Spring Boot Dependency Injection and Bean scopes",
+      "JPA caching levels and database query optimization",
+      "Resilience patterns (Circuit Breaker, Rate Limiting)"
+    ]
+  },
+  {
+    "role": "Data Analyst",
+    "category": "Analytics & BI",
+    "description": "Extracts actionable business insights through rigorous exploratory data analysis, SQL queries, statistical models, and dashboards.",
+    "core_skills": ["SQL", "Python", "Pandas", "Excel / Spreadsheets", "Tableau / Power BI", "Data Cleaning", "Data Visualization"],
+    "secondary_skills": ["NumPy", "Statistics", "A/B Testing", "Git", "Jupyter", "ETL Pipelines"],
+    "tools": ["Tableau", "Power BI", "Excel", "Jupyter Notebooks", "PostgreSQL", "Snowflake"],
+    "projects": [
+      "Customer churn analysis and executive Tableau dashboard",
+      "E-commerce cohort retention analysis and revenue breakdown in Python",
+      "Automated SQL ETL pipeline producing daily operational KPIs"
+    ],
+    "interview_topics": [
+      "Complex SQL window functions, CTEs, and aggregations",
+      "Statistical significance and A/B test sample sizing",
+      "Data anomalies, missing data handling, and normalization",
+      "Storytelling with data visualizations for executive stakeholders"
+    ]
+  },
+  {
+    "role": "Data Scientist",
+    "category": "Applied AI & Statistics",
+    "description": "Develops predictive models, statistical algorithms, and machine learning pipelines to solve complex predictive business problems.",
+    "core_skills": ["Python", "SQL", "Scikit-learn", "Pandas", "NumPy", "Statistical Modeling", "Machine Learning"],
+    "secondary_skills": ["PyTorch", "XGBoost", "Feature Engineering", "MLflow", "Docker", "Data Storytelling"],
+    "tools": ["Jupyter", "Git", "Docker", "MLflow", "VS Code"],
+    "projects": [
+      "End-to-end customer churn prediction pipeline with Scikit-learn and FastAPI",
+      "Credit risk scoring model with feature importance and SHAP interpretability",
+      "Recommendation engine utilizing collaborative filtering and matrix factorization"
+    ],
+    "interview_topics": [
+      "Bias-variance tradeoff and cross-validation strategies",
+      "Supervised vs unsupervised algorithms and performance metrics (ROC-AUC, F1)",
+      "Feature engineering and handling skewed categorical distributions",
+      "Model deployment and drift monitoring in production"
+    ]
+  },
+  {
+    "role": "AI/ML Engineer",
+    "category": "Artificial Intelligence",
+    "description": "Bridges deep learning research and scalable production software to deploy generative AI, LLM applications, and neural networks.",
+    "core_skills": ["Python", "PyTorch", "Transformers", "LLM APIs", "LangChain / LlamaIndex", "Vector Databases", "Docker"],
+    "secondary_skills": ["FastAPI", "Fine-tuning", "ONNX / TensorRT", "RAG Architecture", "Kubernetes", "Git"],
+    "tools": ["Hugging Face", "Pinecone / Chroma", "Docker", "Git", "Weights & Biases"],
+    "projects": [
+      "Production Retrieval-Augmented Generation (RAG) assistant over enterprise docs",
+      "Fine-tuned open-source LLM for domain-specific classification",
+      "High-throughput model inference API deployed with FastAPI and Docker"
+    ],
+    "interview_topics": [
+      "Transformer self-attention mechanism and tokenization",
+      "RAG chunking strategies, embeddings, and vector similarity metrics",
+      "Quantization, LoRA fine-tuning, and inference latency bottlenecks",
+      "Prompt engineering evaluation and safety guardrails"
+    ]
+  },
+  {
+    "role": "Cloud Engineer",
+    "category": "Cloud Infrastructure",
+    "description": "Architects, provisions, and automates resilient, secure, and cost-effective infrastructure across public cloud platforms.",
+    "core_skills": ["AWS / GCP / Azure", "Terraform", "Linux", "Docker", "Networking / VPC", "CI/CD", "Bash Scripting"],
+    "secondary_skills": ["Kubernetes", "CloudFormation", "IAM Security", "Python", "Monitoring / Prometheus"],
+    "tools": ["Terraform", "AWS Console / CLI", "Docker", "Git", "GitHub Actions"],
+    "projects": [
+      "Terraform-managed multi-tier VPC with auto-scaling compute and managed RDS",
+      "Automated CI/CD deployment pipeline with zero-downtime blue/green rollouts",
+      "Centralized cloud monitoring and alerting system with Grafana and Prometheus"
+    ],
+    "interview_topics": [
+      "VPC architecture, subnets, routing tables, and security groups",
+      "Infrastructure as Code (IaC) state management and idempotency",
+      "High availability, multi-region failover, and disaster recovery",
+      "Cost optimization strategies and least-privilege IAM policies"
+    ]
+  },
+  {
+    "role": "DevOps Engineer",
+    "category": "Operations & Reliability",
+    "description": "Builds robust continuous delivery pipelines, container orchestration platforms, and observability frameworks.",
+    "core_skills": ["Linux", "Docker", "Kubernetes", "CI/CD", "Terraform", "Git", "Bash / Python"],
+    "secondary_skills": ["Prometheus", "Grafana", "Helm", "Ansible", "ArgoCD", "Cloud Security"],
+    "tools": ["Kubernetes", "Docker", "GitHub Actions / GitLab CI", "Terraform", "Prometheus"],
+    "projects": [
+      "GitOps continuous deployment pipeline with ArgoCD and Kubernetes",
+      "Production Kubernetes cluster with ingress controllers and cert-manager",
+      "Comprehensive observability stack with Prometheus, Grafana, and Loki"
+    ],
+    "interview_topics": [
+      "Kubernetes pod lifecycle, services, deployments, and resource limits",
+      "CI/CD pipeline security, secret management, and artifact caching",
+      "Immutable infrastructure and blue-green vs canary deployments",
+      "Site Reliability Engineering (SRE) principles: SLIs, SLOs, and Error Budgets"
+    ]
+  },
+  {
+    "role": "Cybersecurity Analyst",
+    "category": "Information Security",
+    "description": "Safeguards organization assets by monitoring vulnerabilities, analyzing security logs, and managing incident responses.",
+    "core_skills": ["Network Security", "SIEM Tools", "Vulnerability Assessment", "Linux / Windows Security", "Incident Response", "Python / Bash"],
+    "secondary_skills": ["Wireshark", "SOC Operations", "Threat Intelligence", "OWASP Top 10", "Firewalls", "Cryptographic Protocols"],
+    "tools": ["Wireshark", "Splunk", "Nessus", "Nmap", "Burp Suite", "Snort"],
+    "projects": [
+      "Enterprise SIEM log analysis pipeline with automated threat alerting",
+      "Web application vulnerability assessment report following OWASP Top 10",
+      "Incident response simulation playbook with forensic artifact acquisition"
+    ],
+    "interview_topics": [
+      "TCP/IP handshakes, packet analysis, and common network attacks",
+      "Common vulnerabilities (SQLi, XSS, SSRF, CSRF) and defense-in-depth",
+      "SIEM correlation rules and false positive minimization",
+      "Incident response lifecycle (NIST / SANS frameworks)"
+    ]
+  }
+]

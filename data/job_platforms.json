@@ -1,0 +1,38 @@
+[
+  {
+    "id": "linkedin",
+    "name": "LinkedIn Jobs",
+    "baseUrl": "https://www.linkedin.com/jobs/search/?keywords=",
+    "description": "World's largest professional network with direct recruiter messaging and alumni connections.",
+    "badge": "Recommended"
+  },
+  {
+    "id": "wellfound",
+    "name": "Wellfound (AngelList)",
+    "baseUrl": "https://wellfound.com/jobs?query=",
+    "description": "Startup job marketplace featuring verified compensation bands, equity grants, and founder outreach.",
+    "badge": "Top Startup Roles"
+  },
+  {
+    "id": "levels",
+    "name": "Levels.fyi Jobs",
+    "baseUrl": "https://www.levels.fyi/jobs?keyword=",
+    "description": "Verified tech salary benchmarks with direct software engineering applications.",
+    "badge": "High Comp"
+  },
+  {
+    "id": "remoteok",
+    "name": "RemoteOK",
+    "baseUrl": "https://remoteok.com/remote-",
+    "suffix": "-jobs",
+    "description": "Curated global remote tech listings with asynchronous communication culture.",
+    "badge": "Remote First"
+  },
+  {
+    "id": "github",
+    "name": "GitHub Jobs Directory",
+    "baseUrl": "https://github.com/topics/",
+    "description": "Open source repositories and companies actively hiring open source contributors.",
+    "badge": "Engineering"
+  }
+]
